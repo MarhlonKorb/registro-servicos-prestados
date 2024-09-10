@@ -1,24 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.13.xsd
-    http://www.liquibase.org/xml/ns/dbchangelog-ext
-    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
-<!--Criação da tabela de cliente -->
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.13.xsd">
+
+    <!-- Tabela de clientes -->
     <changeSet author="korb" id="1">
         <createTable tableName="cliente">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="telefone" type="VARCHAR(255)"/>
-            <column name="email" type="VARCHAR(255)"/>
             <column name="nome" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)">
+                <constraints unique="true"/>
+            </column>
+            <column name="telefone" type="VARCHAR(255)"/>
         </createTable>
-        <addUniqueConstraint
-                columnNames="email"
-                constraintName="uk_cliente_email"
-                tableName="cliente"/>
     </changeSet>
- </databaseChangeLog>
+
+    <!-- Tabela de usuários -->
+    <changeSet author="korb" id="2">
+        <createTable tableName="usuario">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nome" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)">
+                <constraints unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Tabela de tarefas -->
+    <changeSet author="korb" id="3">
+        <createTable tableName="task">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="descricao" type="VARCHAR(255)"/>
+            <column name="data_inicio" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data_fim" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cliente_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="usuario_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Adicionar restrições de chaves estrangeiras -->
+    <changeSet author="korb" id="4">
+        <addForeignKeyConstraint baseTableName="task"
+                                 baseColumnNames="cliente_id"
+                                 constraintName="fk_task_cliente"
+                                 referencedTableName="cliente"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
+    <changeSet author="korb" id="5">
+        <addForeignKeyConstraint baseTableName="task"
+                                 baseColumnNames="usuario_id"
+                                 constraintName="fk_task_usuario"
+                                 referencedTableName="usuario"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
+</databaseChangeLog>
