@@ -9,6 +9,8 @@ import org.korb.cliente.ClienteRepository;
 import org.korb.usuario.Usuario;
 import org.korb.usuario.UsuarioRepository;
 
+import java.util.Set;
+
 @ApplicationScoped
 public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
@@ -31,6 +33,11 @@ public class TaskServiceImpl implements TaskService {
         validateInputFields(clienteEncontrado, usuarioEncontrado);
         var task = new TaskInputDto(taskInputResource.descricao(), taskInputResource.dataInicio(), taskInputResource.dataFim(), clienteEncontrado, usuarioEncontrado);
         taskRepository.create(task);
+    }
+
+    @Override
+    public Set<Task> findByUsuarioId(Long idUsuario) {
+        return taskRepository.findByUsuarioId(idUsuario);
     }
 
     private void validateInputFields(Cliente cliente, Usuario usuario) throws Exception {
