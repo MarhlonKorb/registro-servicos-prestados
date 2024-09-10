@@ -6,16 +6,19 @@
     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.13.xsd
     http://www.liquibase.org/xml/ns/dbchangelog-ext
     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
-
+<!--Criação da tabela de cliente -->
     <changeSet author="korb" id="1">
         <createTable tableName="cliente">
-            <column name="id" type="BIGINT">
+            <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="telefone" type="VARCHAR(255)"/>
             <column name="email" type="VARCHAR(255)"/>
             <column name="nome" type="VARCHAR(255)"/>
         </createTable>
+        <addUniqueConstraint
+                columnNames="email"
+                constraintName="uk_cliente_email"
+                tableName="cliente"/>
     </changeSet>
-
-</databaseChangeLog>
+ </databaseChangeLog>

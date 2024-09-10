@@ -1,6 +1,5 @@
-package org.korb;
+package org.korb.cliente;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 

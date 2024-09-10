@@ -1,4 +1,4 @@
-package org.korb;
+package org.korb.cliente;
 
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -34,7 +34,7 @@ public class ClienteResource {
     @DELETE
     @Path("/{id}")
     @Transactional
-    public Response delete(Long id) {
+    public Response delete(@PathParam("id")Long id) {
         Cliente entity = clienteRepository.findById(id);
         if (entity == null) {
             throw new NotFoundException();

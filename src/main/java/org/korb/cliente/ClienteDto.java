@@ -1,4 +1,4 @@
-package org.korb;
+package org.korb.cliente;
 
 public record ClienteDto(String nome, String email, String telefone){
 
